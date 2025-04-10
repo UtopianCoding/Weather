@@ -3,13 +3,16 @@ package com.atigu.weather.service.impl;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import com.atigu.weather.model.Daily;
 import com.atigu.weather.pojo.WeatherResponse;
+import com.atigu.weather.service.DailyService;
 import com.atigu.weather.service.WeatherService;
 
 import net.i2p.crypto.eddsa.EdDSAEngine;
 import net.i2p.crypto.eddsa.EdDSAPrivateKey;
 import net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable;
 import net.i2p.crypto.eddsa.spec.EdDSAParameterSpec;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Base64;
+import java.util.List;
 
 @Service
 public class WeatherServiceImpl implements WeatherService {
@@ -33,6 +37,10 @@ public class WeatherServiceImpl implements WeatherService {
     private String weatherPrivateKey;
     @Value("${weather.projectId}")
     private String weatherProjectId;
+
+    @Autowired
+    private DailyService dailyService;
+
     @Override
     public void getWeather()  throws Exception{
         // Private key
@@ -87,7 +95,12 @@ public class WeatherServiceImpl implements WeatherService {
         // 输出响应体
         System.out.println("Response Body: " + response.body());
         WeatherResponse weatherResponse = JSONUtil.toBean(response.body(), WeatherResponse.class);
+        if ("200".equals(weatherResponse.getCode())){
+            List<Daily> daily = weatherResponse.getDaily();
+            for (Daily d : daily){
+                dailyService.insert(d);
+            }
+        }
 
-        System.out.println(weatherResponse);
     }
 }

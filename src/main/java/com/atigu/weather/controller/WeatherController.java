@@ -16,8 +16,9 @@ public class WeatherController {
     private WeatherService weatherService;
 
     @PostMapping("/weather")
-    public void getWeather() throws Exception {
+    public String getWeather() throws Exception {
         weatherService.getWeather();
+        return "ok";
     }
 
 }
