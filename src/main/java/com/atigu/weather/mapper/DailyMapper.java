@@ -1,6 +1,7 @@
 package com.atigu.weather.mapper;
+import org.apache.ibatis.annotations.Param;
 
-import com.atigu.weather.model.Daily;
+import com.atigu.weather.pojo.Daily;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -11,11 +12,11 @@ public interface DailyMapper {
     @Insert("INSERT INTO daily(fxDate, sunrise, sunset, moonrise, moonset, moonPhase, moonPhaseIcon, " +
             "tempMax, tempMin, iconDay, textDay, iconNight, textNight, wind360Day, windDirDay, windScaleDay, " +
             "windSpeedDay, wind360Night, windDirNight, windScaleNight, windSpeedNight, precip, uv_index, " +
-            "humidity, pressure, vis, cloud) " +
+            "humidity, pressure, vis, cloud,location) " +
             "VALUES(#{fxDate}, #{sunrise}, #{sunset}, #{moonrise}, #{moonset}, #{moonPhase}, #{moonPhaseIcon}, " +
             "#{tempMax}, #{tempMin}, #{iconDay}, #{textDay}, #{iconNight}, #{textNight}, #{wind360Day}, " +
             "#{windDirDay}, #{windScaleDay}, #{windSpeedDay}, #{wind360Night}, #{windDirNight}, #{windScaleNight}, " +
-            "#{windSpeedNight}, #{precip}, #{uvIndex}, #{humidity}, #{pressure}, #{vis}, #{cloud})")
+            "#{windSpeedNight}, #{precip}, #{uvIndex}, #{humidity}, #{pressure}, #{vis}, #{cloud},#{location} )")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Daily daily);
 
@@ -25,7 +26,7 @@ public interface DailyMapper {
             "textNight=#{textNight}, wind360Day=#{wind360Day}, windDirDay=#{windDirDay}, windScaleDay=#{windScaleDay}, " +
             "windSpeedDay=#{windSpeedDay}, wind360Night=#{wind360Night}, windDirNight=#{windDirNight}, " +
             "windScaleNight=#{windScaleNight}, windSpeedNight=#{windSpeedNight}, precip=#{precip}, " +
-            "uv_index=#{uvIndex}, humidity=#{humidity}, pressure=#{pressure}, vis=#{vis}, cloud=#{cloud} " +
+            "uv_index=#{uvIndex}, humidity=#{humidity}, pressure=#{pressure}, vis=#{vis}, cloud=#{cloud} ,location=#{location}" +
             "WHERE id=#{id}")
     int update(Daily daily);
 
@@ -40,4 +41,8 @@ public interface DailyMapper {
 
     @Select("SELECT * FROM daily WHERE fxDate=#{fxDate}")
     Daily selectByFxDate(String fxDate);
+
+    Daily selectByFxDateAndLocation(@Param("fxDate")String fxDate,@Param("location")String location);
+
+    List<Daily> selectByLocation(String location);
 }

@@ -1,6 +1,6 @@
 package com.atigu.weather.controller;
 
-import com.atigu.weather.model.Daily;
+import com.atigu.weather.pojo.Daily;
 import com.atigu.weather.service.DailyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

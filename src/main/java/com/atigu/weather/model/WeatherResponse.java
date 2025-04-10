@@ -1,6 +1,6 @@
-package com.atigu.weather.pojo;
+package com.atigu.weather.model;
 
-import com.atigu.weather.model.Daily;
+import com.atigu.weather.pojo.Daily;
 import lombok.Data;
 
 import java.util.List;

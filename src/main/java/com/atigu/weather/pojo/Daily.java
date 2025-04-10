@@ -1,4 +1,4 @@
-package com.atigu.weather.model;
+package com.atigu.weather.pojo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -94,4 +94,8 @@ public class Daily {
     @ApiModelProperty(value = "云量，百分比数值。可能为空")
     @Column(name = "cloud")
     private String cloud ;
+
+    @ApiModelProperty(value = "经纬度")
+    @Column(name = "location")
+    private String location;
 }

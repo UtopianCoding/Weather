@@ -1,4 +1,4 @@
-package com.atigu.weather.pojo;
+package com.atigu.weather.model;
 
 import lombok.Data;
 

@@ -1,11 +1,12 @@
 package com.atigu.weather.service.impl;
 
 import com.atigu.weather.mapper.DailyMapper;
-import com.atigu.weather.model.Daily;
+import com.atigu.weather.pojo.Daily;
 import com.atigu.weather.service.DailyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -16,7 +17,13 @@ public class DailyServiceImpl implements DailyService {
 
     @Override
     public Daily insert(Daily daily) {
-        dailyMapper.insert(daily);
+        Daily fxDate = dailyMapper.selectByFxDateAndLocation(daily.getFxDate(),daily.getLocation());
+        if (fxDate != null){
+            dailyMapper.update(daily);
+        }else{
+            dailyMapper.insert(daily);
+        }
+
         return daily;
     }
 
@@ -44,5 +51,10 @@ public class DailyServiceImpl implements DailyService {
     @Override
     public Daily selectByFxDate(String fxDate) {
         return dailyMapper.selectByFxDate(fxDate);
+    }
+
+    @Override
+    public List<Daily> selectByLocation(String location) {
+        return dailyMapper.selectByLocation(location);
     }
 }

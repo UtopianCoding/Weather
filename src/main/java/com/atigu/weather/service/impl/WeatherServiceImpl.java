@@ -2,9 +2,11 @@ package com.atigu.weather.service.impl;
 
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.atigu.weather.model.Daily;
-import com.atigu.weather.pojo.WeatherResponse;
+import com.atigu.weather.model.WeatherRequest;
+import com.atigu.weather.pojo.Daily;
+import com.atigu.weather.model.WeatherResponse;
 import com.atigu.weather.service.DailyService;
 import com.atigu.weather.service.WeatherService;
 
@@ -41,8 +43,13 @@ public class WeatherServiceImpl implements WeatherService {
     @Autowired
     private DailyService dailyService;
 
+    /**
+     *
+     * @param request
+     * @throws Exception
+     */
     @Override
-    public void getWeather()  throws Exception{
+    public void getWeather(WeatherRequest request )  throws Exception{
         // Private key
         String privateKeyString = weatherPrivateKey;
         privateKeyString = privateKeyString.trim().trim();
@@ -51,12 +58,19 @@ public class WeatherServiceImpl implements WeatherService {
         PrivateKey privateKey = new EdDSAPrivateKey(encoded);
 
         // Header
-        String headerJson = "{\"alg\": \"EdDSA\", \"kid\":"+weatherKid+"}";
+        JSONObject headerJsonO = new JSONObject();
+        headerJsonO.put("alg", "EdDSA");
+        headerJsonO.put("kid", weatherKid);
+        String headerJson =headerJsonO.toString();
 
         // Payload
         long iat = ZonedDateTime.now(ZoneOffset.UTC).toEpochSecond() - 30;
         long exp = iat + 9000;
-        String payloadJson = "{\"sub\": "+weatherProjectId+", \"iat\": " + iat + ", \"exp\": " + exp + "}";
+        JSONObject payload = new JSONObject();
+        payload.put("sub",weatherProjectId);
+        payload.put("iat", iat);
+        payload.put("exp", exp);
+        String payloadJson =payload.toString();
 
         // Base64url header+payload
         String headerEncoded = Base64.getUrlEncoder().encodeToString(headerJson.getBytes(StandardCharsets.UTF_8));
@@ -75,12 +89,16 @@ public class WeatherServiceImpl implements WeatherService {
 
         System.out.println("Signature: \n" + signatureString);
 
+        String location=request.getLongitude()+","+request.getLatitude();
+
         // Print Token
         String jwt = data + "." + signatureString;
+        String url=weatherUrl+"/v7/weather";
 
+            url+="/30d?location="+location;
 
         // API URL
-        String url = weatherUrl+"/v7/weather/3d?location=101010100";
+//        String url = weatherUrl+"/v7/weather/30d?location=120.03,30.29";
 
         // 发送 GET 请求
         HttpResponse response = HttpUtil.createGet(url)
@@ -97,6 +115,9 @@ public class WeatherServiceImpl implements WeatherService {
         WeatherResponse weatherResponse = JSONUtil.toBean(response.body(), WeatherResponse.class);
         if ("200".equals(weatherResponse.getCode())){
             List<Daily> daily = weatherResponse.getDaily();
+            daily.forEach(d->{
+                d.setLocation(location);
+            });
             for (Daily d : daily){
                 dailyService.insert(d);
             }

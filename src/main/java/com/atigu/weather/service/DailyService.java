@@ -1,6 +1,6 @@
 package com.atigu.weather.service;
 
-import com.atigu.weather.model.Daily;
+import com.atigu.weather.pojo.Daily;
 import java.util.List;
 
 public interface DailyService {
@@ -10,4 +10,6 @@ public interface DailyService {
     Daily selectById(Integer id);
     List<Daily> selectAll();
     Daily selectByFxDate(String fxDate);
+
+    List<Daily> selectByLocation(String s);
 }
