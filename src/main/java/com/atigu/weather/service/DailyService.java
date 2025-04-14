@@ -11,5 +11,14 @@ public interface DailyService {
     List<Daily> selectAll();
     Daily selectByFxDate(String fxDate);
 
-    List<Daily> selectByLocation(String s);
+    Daily selectByLocation(String s,String fxDate);
+
+    /**
+     *
+     * @param s
+     * @param monthStart
+     * @param monthEnd
+     * @return
+     */
+    List<Daily> selectByLocationAndMonth(String s, String monthStart, String monthEnd);
 }

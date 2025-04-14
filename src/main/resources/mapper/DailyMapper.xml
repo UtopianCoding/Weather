@@ -74,6 +74,10 @@
     </select>
 
     <select id="selectByLocation" resultMap="BaseResultMap">
-        select * from daily where location=#{location}
+        select * from daily where location=#{location} and fxDate=#{fxDate}
+    </select>
+
+    <select id="selectByLocationAndMonth" resultMap="BaseResultMap">
+        select * from daily where location=#{location} and fxDate >= #{monthStart} and fxDate &lt; #{monthEnd}
     </select>
 </mapper>

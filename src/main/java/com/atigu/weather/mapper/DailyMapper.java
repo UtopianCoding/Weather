@@ -44,5 +44,14 @@ public interface DailyMapper {
 
     Daily selectByFxDateAndLocation(@Param("fxDate")String fxDate,@Param("location")String location);
 
-    List<Daily> selectByLocation(String location);
+    Daily selectByLocation(@Param("location") String location,@Param("fxDate") String fxDate);
+
+    /**
+     *
+     * @param location
+     * @param monthStart
+     * @param monthEnd
+     * @return
+     */
+    List<Daily> selectByLocationAndMonth(@Param("location") String location, @Param("monthStart") String monthStart, @Param("monthEnd") String monthEnd);
 }

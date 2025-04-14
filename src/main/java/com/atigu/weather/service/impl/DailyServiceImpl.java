@@ -54,7 +54,12 @@ public class DailyServiceImpl implements DailyService {
     }
 
     @Override
-    public List<Daily> selectByLocation(String location) {
-        return dailyMapper.selectByLocation(location);
+    public Daily selectByLocation(String location,String fxDate) {
+        return dailyMapper.selectByLocation(location,fxDate);
+    }
+
+    @Override
+    public List<Daily> selectByLocationAndMonth(String location, String monthStart, String monthEnd) {
+        return dailyMapper.selectByLocationAndMonth(location,monthStart,monthEnd);
     }
 }

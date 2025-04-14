@@ -1,9 +1,16 @@
 spring:
   datasource:
-    url: jdbc:mysql://101.34.56.11:3306/weather?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
-    username: root
-    password: root1234
+    url: jdbc:mysql://****/weather?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+    username: ***
+    password: ***
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: ***
+    port: 6379
+    database: 2
+    timeout: 5000
+    password: ***
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
