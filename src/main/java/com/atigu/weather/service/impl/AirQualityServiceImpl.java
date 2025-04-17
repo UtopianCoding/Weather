@@ -1,7 +1,10 @@
 package com.atigu.weather.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.atigu.weather.mapper.*;
 import com.atigu.weather.model.AirQualityResponse;
+import com.atigu.weather.model.WeatherHistoryResponse;
+import com.atigu.weather.model.dto.WeatherDailyDto;
 import com.atigu.weather.pojo.*;
 import com.atigu.weather.service.AirQualityService;
 import com.atigu.weather.service.ThirdService;
@@ -56,7 +59,9 @@ public class AirQualityServiceImpl implements AirQualityService {
             }
         }
     }
-    
+
+
+
     private void saveDayData(Long metadataId, AirQualityResponse.Hour dayData) {
         // 保存Day
         AirQualityHours day = new AirQualityHours();

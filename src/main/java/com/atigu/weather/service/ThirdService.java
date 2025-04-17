@@ -1,6 +1,7 @@
 package com.atigu.weather.service;
 
 import com.atigu.weather.model.AirQualityResponse;
+import com.atigu.weather.model.WeatherHistoryResponse;
 import com.atigu.weather.pojo.Daily;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface ThirdService {
     public List<Daily> getDayWeather(String location) throws Exception;
 
     AirQualityResponse fetchAndSaveAirQualityData() throws Exception;
+
+    WeatherHistoryResponse getHistoricalWeather() throws Exception;
 }

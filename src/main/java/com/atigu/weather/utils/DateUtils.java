@@ -2,6 +2,9 @@ package com.atigu.weather.utils;
  
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -99,6 +102,8 @@ public class DateUtils {
     public static final String FORMAT_NO_SECOND = "yyyyMMddHHmmss";
     /** 显示到毫秒（数字格式） */
     public static final String FORMAT_NO_MILLISECOND = "yyyyMMddHHmmssSSS";
+
+    public static final DateTimeFormatter yyyyMMddHHmmss_EN = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     /** 时间格式化器集合 */
     private static final Map<String, SimpleDateFormat> simpleDateFormatMap = new HashMap<String, SimpleDateFormat>();
     static {
@@ -113,7 +118,21 @@ public class DateUtils {
         simpleDateFormatMap.put(FORMAT_NO_SECOND, new SimpleDateFormat(FORMAT_NO_SECOND));
         simpleDateFormatMap.put(FORMAT_NO_MILLISECOND, new SimpleDateFormat(FORMAT_NO_MILLISECOND));
     }
- 
+
+    public static String getNowDate_EN() {
+        return String.valueOf(LocalDate.now());
+    }
+
+    /**
+     * 获取当前日期
+     *
+     * @return 字符串yyyy-MM-dd HH:mm:ss
+     * @author zero 2019/03/30
+     */
+    public static String getNowTime_EN() {
+        return LocalDateTime.now().format(yyyyMMddHHmmss_EN);
+    }
+
     /**
      * 获取指定时间格式化器
      *

@@ -69,4 +69,10 @@ public class WeatherController {
         return UResult.success(dailys);
     }
 
+    @PostMapping("/getHistory")
+    public UResult<String> getHistory() throws Exception {
+        weatherService.getHistoricalWeather();
+        return UResult.success("Air quality data fetched and saved successfully");
+    }
+
 }

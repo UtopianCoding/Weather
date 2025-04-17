@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface AirQualityService {
     void fetchAndSaveAirQualityData() throws Exception;
+
+
 }

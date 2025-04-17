@@ -6,6 +6,7 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.atigu.weather.model.AirQualityResponse;
+import com.atigu.weather.model.WeatherHistoryResponse;
 import com.atigu.weather.model.WeatherResponse;
 import com.atigu.weather.pojo.Daily;
 import com.atigu.weather.service.ThirdService;
@@ -124,6 +125,16 @@ public class ThirdServiceImpl implements ThirdService {
         return airQualityResponse;
 
 
+    }
+
+    @Override
+    public WeatherHistoryResponse getHistoricalWeather() throws Exception {
+        String jwt=getToken();
+        String url=weatherUrl+"/v7/historical/weather?location=101011200&date=20250415";
+        String result = thirdExecute(url, 20000, jwt);
+        WeatherHistoryResponse weatherHistoryResponse = JSONUtil.toBean(result, WeatherHistoryResponse.class);
+
+        return weatherHistoryResponse;
     }
 
     public String thirdExecute(String url, int readTimeOutMillis, String jwt) throws Exception {

@@ -2,6 +2,7 @@ package com.atigu.weather.controller;
 
 import com.atigu.weather.common.UResult;
 import com.atigu.weather.service.AirQualityService;
+import com.atigu.weather.service.ThirdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +18,15 @@ import java.util.List;
 public class AirQualityController {
     @Autowired
     private  AirQualityService airQualityService;
+
+    @Autowired
+    private ThirdService thirdService;
     
     @PostMapping("/fetch")
     public UResult<String> fetchData() throws Exception {
         airQualityService.fetchAndSaveAirQualityData();
         return UResult.success("Air quality data fetched and saved successfully");
     }
-    
+
 
 }

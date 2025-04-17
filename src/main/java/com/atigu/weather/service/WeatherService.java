@@ -9,4 +9,6 @@ public interface WeatherService {
      * @throws Exception
      */
     void getWeather(WeatherRequest request) throws Exception;
+
+    void getHistoricalWeather() throws Exception;
 }
